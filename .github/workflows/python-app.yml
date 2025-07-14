@@ -25,4 +25,4 @@ jobs:
 
     - name: Run the app to check for errors
       run: |
-        python app.py
+        python main.pyw
