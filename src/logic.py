@@ -2,8 +2,8 @@ import time
 import threading
 from tkinter import messagebox
 from pynput import mouse, keyboard
-from player import Player
-from recorder import Recorder
+from .player import Player
+from .recorder import Recorder
 
 recorder = None
 player = None
@@ -40,16 +40,29 @@ def get_status_text():
         return "Paused"
     return "Recording…" if recorder.recording else "Paused"
 
+from pynput import keyboard
+
 def start_keyboard_listener():
     global keyboard_listener
     if keyboard_listener is None:
-        def on_key_press(key):
+        current_keys = set()
+
+        def on_press(key):
             try:
-                if key == keyboard.Key.space:
-                    toggle_recording()
+                current_keys.add(key)
+                if keyboard.Key.ctrl_l in current_keys or keyboard.Key.ctrl_r in current_keys:
+                    if key == keyboard.Key.space:
+                        toggle_recording()
             except Exception:
                 pass
-        keyboard_listener = keyboard.Listener(on_press=on_key_press)
+
+        def on_release(key):
+            try:
+                current_keys.discard(key)
+            except KeyError:
+                pass
+
+        keyboard_listener = keyboard.Listener(on_press=on_press, on_release=on_release)
         keyboard_listener.start()
 
 def start_playback():

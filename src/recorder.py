@@ -97,7 +97,18 @@ class Recorder:
 
     def add_custom_event(self, message):
         if not self.recording:
-            messagebox.showinfo("Info", "Start recording first to add custom events.")
+            now = self.get_adjusted_time()
+            delta = 0 if self.last_click_time is None else round(now - self.last_click_time, 6)
+            self.last_click_time = now
+            event = {
+                "type": "custom",
+                "delta": delta,
+                "message": message
+            }
+            self.click_data.append(event)
+            self.save_data()
+            self.update_ui()
+            messagebox.showinfo("Info", "Recording still paused.")
             return
         now = self.get_adjusted_time()
         delta = 0 if self.last_click_time is None else round(now - self.last_click_time, 6)

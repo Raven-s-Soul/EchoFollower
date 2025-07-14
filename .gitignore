@@ -1,3 +1,4 @@
 error.log
 mouse_clicks.json
 __pycache__/*
+src/__pycache__

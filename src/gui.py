@@ -11,7 +11,7 @@ class RecorderGUI:
         self.play_callback = play_callback
         self.add_custom_callback = add_custom_callback
 
-        self.root.title("Mouse Click Recorder")
+        self.root.title("EchoFollower")
         self.root.geometry("400x280")
         self.root.resizable(False, False)
 
@@ -26,7 +26,7 @@ class RecorderGUI:
         self.status_label.pack(side=tk.LEFT)
 
         # --- Hint ---
-        self.hint_label = tk.Label(self.root, text="Press [Space] to toggle recording", fg="gray")
+        self.hint_label = tk.Label(self.root, text="Press [Ctrl + Space] to toggle recording", fg="gray")
         self.hint_label.pack(pady=(0, 5))
 
         # --- Middle Row: Clear + Count (Centered) ---
@@ -49,6 +49,10 @@ class RecorderGUI:
 
         self.add_event_btn = tk.Button(self.custom_frame, text="Add Event", command=self.add_custom_event)
         self.add_event_btn.pack(side=tk.LEFT)
+        
+        # --- Hint ---
+        self.hint_label = tk.Label(self.root, text="Press [Return] to Confirm", fg="gray")
+        self.hint_label.pack(pady=(0, 5))
 
         # --- Separator Line ---
         self.separator = tk.Frame(self.root, height=1, bd=1, relief=tk.SUNKEN)
@@ -77,9 +81,11 @@ class RecorderGUI:
 
     def add_custom_event(self):
         message = self.custom_entry.get().strip()
-        if message:
-            self.add_custom_callback(message)
-            self.custom_entry.delete(0, tk.END)
+        #if message and self.get_status_text() == "Recording…":
+        self.add_custom_callback(message)
+        self.custom_entry.delete(0, tk.END)
+        #elif not self.get_status_text() == "Recording…":
+        #   messagebox.showinfo("Paused", "You can only add custom events while recording.")
 
     def on_enter_pressed(self, event):
         self.add_custom_event()

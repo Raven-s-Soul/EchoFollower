@@ -1,10 +1,12 @@
 import tkinter as tk
 import traceback
-from gui import RecorderGUI
-import logic
+
+from src.gui import RecorderGUI
+from src import logic
 
 def run():
     root = tk.Tk()
+    root.iconbitmap("icon.ico")
 
     gui = RecorderGUI(
         root=root,
