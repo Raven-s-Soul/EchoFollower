@@ -1,4 +1,4 @@
-name: Basic run check
+name: Run app with Xvfb
 
 on:
   push:
@@ -7,7 +7,7 @@ on:
     branches: [ "master" ]
 
 jobs:
-  run-check:
+  run-with-xvfb:
     runs-on: ubuntu-latest
 
     steps:
@@ -18,11 +18,13 @@ jobs:
       with:
         python-version: "3.10"
 
-    - name: Install dependencies
+    - name: Install dependencies and Xvfb
       run: |
+        sudo apt-get update
+        sudo apt-get install -y xvfb
         python -m pip install --upgrade pip
         if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
 
-    - name: Run the app to check for errors
+    - name: Run app with virtual display (Xvfb)
       run: |
-        python main.pyw
+        xvfb-run -a python main.pyw
