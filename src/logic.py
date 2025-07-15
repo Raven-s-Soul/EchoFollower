@@ -40,8 +40,6 @@ def get_status_text():
         return "Paused"
     return "Recording…" if recorder.recording else "Paused"
 
-from pynput import keyboard
-
 def start_keyboard_listener():
     global keyboard_listener
     if keyboard_listener is None:
@@ -50,9 +48,17 @@ def start_keyboard_listener():
         def on_press(key):
             try:
                 current_keys.add(key)
-                if keyboard.Key.ctrl_l in current_keys or keyboard.Key.ctrl_r in current_keys:
+                # Check for Ctrl + Space
+                if (keyboard.Key.ctrl_l in current_keys or keyboard.Key.ctrl_r in current_keys):
                     if key == keyboard.Key.space:
                         toggle_recording()
+
+                # Check for Ctrl + X
+                if (keyboard.Key.ctrl_l in current_keys or keyboard.Key.ctrl_r in current_keys) and (keyboard.Key.alt_l in current_keys or keyboard.Key.alt_r in current_keys):
+                    stop_playback()
+                    if gui:
+                        gui.update_ui()
+                            
             except Exception:
                 pass
 
@@ -68,6 +74,10 @@ def start_keyboard_listener():
 def start_playback():
     if player:
         player.playback()
+
+def stop_playback():
+    if player:
+        player.stop()
 
 def add_custom_event(message):
     if recorder:

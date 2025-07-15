@@ -9,23 +9,31 @@ class Player:
         self.click_data = click_data
         self.mouse_controller = MouseController()
         self.keyboard_controller = KeyboardController()
+        self.stop_flag = False
+
+    def stop(self):
+        self.stop_flag = True
 
     def playback(self):
         if not self.click_data:
             messagebox.showinfo("Info", "No clicks recorded to replay.")
             return
 
+        self.stop_flag = False  # Reset stop flag before starting
+
         def playback_thread():
             try:
                 for event in self.click_data:
+                    if self.stop_flag:
+                        break  # Stop playback immediately
                     time.sleep(event.get("delta", 0))
                     if event.get("type") == "custom":
                         message = event.get("message", "")
-                        # Simulate typing the message
-                        for char in message:
-                            self.keyboard_controller.press(char)
-                            self.keyboard_controller.release(char)
-                            time.sleep(0.05)  # optional delay between keystrokes
+                        if message == "do_combo_1":
+                            self.keyboard_controller.press(Key.ctrl)
+                            self.keyboard_controller.press('c')
+                            self.keyboard_controller.release('c')
+                            self.keyboard_controller.release(Key.ctrl)
                     elif event.get("type") == "mouse":
                         pos = event["position"]
                         button_name = event["button"]

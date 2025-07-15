@@ -18,6 +18,7 @@ def run():
         add_custom_callback=logic.add_custom_event
     )
 
+
     logic.set_gui(gui)
     gui.update_ui()
 
