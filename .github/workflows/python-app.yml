@@ -2,9 +2,9 @@ name: Run app with Xvfb
 
 on:
   push:
-    branches: [ "master" ]
+    branches: [ "relese" ]
   pull_request:
-    branches: [ "master" ]
+    branches: [ "relese" ]
 
 jobs:
   run-with-xvfb:
