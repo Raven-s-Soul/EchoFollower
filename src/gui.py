@@ -13,54 +13,67 @@ class RecorderGUI:
         self.play_callback = play_callback
 
         self.root.title("EchoFollower")
-        self.root.geometry("350x400")
+        self.root.geometry("335x340")
         self.root.resizable(False, False)
-        
-        self.root.grid_rowconfigure(0, weight=1)
-        self.root.grid_columnconfigure(0, weight=1)
 
         # === Recording Section ===
         self.record_frame = tk.LabelFrame(self.root, text="Recording", padx=10, pady=10)
-        self.record_frame.grid(padx=10, pady=10, sticky="nsew")
+        self.record_frame.pack(fill="x", padx=10, pady=10)
 
-        self.toggle_btn = tk.Button(self.record_frame, text="Start Recording", command=self.toggle_callback)
-        self.toggle_btn.grid(row=0, column=0, sticky="we", pady=10)
+        top_row = tk.Frame(self.record_frame)
+        top_row.pack(fill="x", pady=5)
 
-        self.status_label = tk.Label(self.record_frame, text="Paused", fg="green")
-        self.status_label.grid(row=0, column=1, sticky="we", pady=10)
+        # Center container to hold both widgets with some space between
+        center_container = tk.Frame(top_row)
+        center_container.pack(expand=True)  # This centers horizontally in top_row
 
-        
+        self.toggle_btn = tk.Button(center_container, text="Start Recording", command=self.toggle_callback)
+        self.toggle_btn.pack(side="left", padx=(0, 10))  # Fixed size, natural width
+
+        self.status_label = tk.Label(center_container, text="Paused", fg="green", width=12, anchor="center")
+        self.status_label.pack(side="left")
+
+        # Second row: hint label
         self.record_hint = tk.Label(self.record_frame, text="Press [Ctrl + Space] to toggle recording", fg="gray")
-        self.record_hint.grid(row=1, column=0, columnspan=2)
+        self.record_hint.pack(pady=5)
 
-        self.custom_entry = tk.Entry(self.record_frame, width=30)
-        self.custom_entry.grid(row=2, column=0, sticky="we", pady=10)
+        # Third row: entry + add button
+        entry_row = tk.Frame(self.record_frame)
+        entry_row.pack(fill="x", pady=5)
 
-        self.add_event_btn = tk.Button(self.record_frame, text="Add Text", command=self.add_custom_event)
-        self.add_event_btn.grid(row=2, column=1, sticky="we", pady=10)
-        
+        self.custom_entry = tk.Entry(entry_row)
+        self.custom_entry.pack(side="left", expand=True, fill="x", padx=(0, 5))
         self.custom_entry.bind("<Return>", self.on_enter_pressed)
-        
-        self.Return_hint = tk.Label(self.record_frame, text="Press [Return] to save text", fg="gray")
-        self.Return_hint.grid(row=3, column=0, columnspan=2)
-        
-        self.clear_btn = tk.Button(self.record_frame, text="Clear All", fg="red", command=self.confirm_clear)
-        self.clear_btn.grid(row=4, column=0, sticky="we", pady=10)
 
-        self.count_label = tk.Label(self.record_frame, text="Clicks recorded: 0")
-        self.count_label.grid(row=4, column=1, sticky="we", pady=10)
+        self.add_event_btn = tk.Button(entry_row, text="Add Text", command=self.add_custom_event)
+        self.add_event_btn.pack(side="left")
         
+        # === Cleaning Section ===
+        self.cleaning_frame = tk.LabelFrame(self.root, text="Cleaning", padx=10, pady=10)
+        self.cleaning_frame.pack(fill="x", padx=10, pady=5)
+
+        self.cleaning_row = tk.Frame(self.cleaning_frame)
+        self.cleaning_row.pack(fill="x")
+
+        # Container frame to center both widgets together
+        center_container = tk.Frame(self.cleaning_row)
+        center_container.pack(expand=True)  # expands to take all available space and centers children by default
+
+        self.clear_btn = tk.Button(center_container, text="Clear All", fg="red", command=self.confirm_clear)
+        self.clear_btn.pack(side="left", padx=(0, 10))  # small gap between button and label
+
+        self.count_label = tk.Label(center_container, text="Clicks recorded: 0")
+        self.count_label.pack(side="left")
 
         # === Replay Section ===
         self.replay_frame = tk.LabelFrame(self.root, text="Replay", padx=10, pady=10)
-        self.replay_frame.grid(padx=10, pady=10, sticky="nsew")
+        self.replay_frame.pack(fill="x", padx=10, pady=5)
 
         self.play_btn = tk.Button(self.replay_frame, text="Play", command=self.play_callback)
-        self.play_btn.grid(row=0, column=0, columnspan=2, pady=(10, 0), sticky="we")
-        
+        self.play_btn.pack(fill="x", pady=(0, 5))
+
         self.replay_hint = tk.Label(self.replay_frame, text="Press [Ctrl + Alt] to stop", fg="gray")
-        self.replay_hint.grid(row=1, column=0, columnspan=2, pady=(10, 0), sticky="we")
-       
+        self.replay_hint.pack()
 
     def update_ui(self):
         status = self.get_status_text()

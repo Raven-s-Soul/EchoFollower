@@ -6,7 +6,7 @@ from src import logic
 
 def run():
     root = tk.Tk()
-    root.iconbitmap("icon.ico")
+    root.iconbitmap("assets/icon.ico")
 
     gui = RecorderGUI(
         root=root,

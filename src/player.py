@@ -29,11 +29,10 @@ class Player:
                     time.sleep(event.get("delta", 0))
                     if event.get("type") == "custom":
                         message = event.get("message", "")
-                        if message == "do_combo_1":
-                            self.keyboard_controller.press(Key.ctrl)
-                            self.keyboard_controller.press('c')
-                            self.keyboard_controller.release('c')
-                            self.keyboard_controller.release(Key.ctrl)
+                        for char in message:
+                            self.keyboard_controller.press(char)
+                            self.keyboard_controller.release(char)
+                            time.sleep(0.05)  # optional delay between keystrokes
                     elif event.get("type") == "mouse":
                         pos = event["position"]
                         button_name = event["button"]

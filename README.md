@@ -31,8 +31,8 @@ python Autofarmer.pyw
 
 - Use the **Start Recording** button or press **Ctrl + Space** to start/stop recording.  
 - Use the **Clear All** button to reset recorded data.  
-- Add custom keyboard events via the input box and **Add Event** button.  
-- Use the **Play** button to replay recorded events.
+- Add custom Writing events via the input box and **Add Text** button.  
+- Use the **Play** button to replay recorded events or press **Ctrl + Alt** to stop the replay.
 
 ## Contributing
 
