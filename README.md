@@ -27,7 +27,7 @@ EchoFollower is a lightweight automation tool that records and replays mouse cli
 ## Usage
 
 Run the main script:  
-python Autofarmer.pyw
+python EchoFollower.pyw
 
 - Use the **Start Recording** button or press **Ctrl + Space** to start/stop recording.  
 - Use the **Clear All** button to reset recorded data.  
