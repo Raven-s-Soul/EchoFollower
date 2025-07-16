@@ -1,4 +1,5 @@
 import tkinter as tk
+from tkinter import PhotoImage
 import traceback
 
 from src.gui import RecorderGUI
@@ -6,7 +7,8 @@ from src import logic
 
 def run():
     root = tk.Tk()
-    root.iconbitmap("assets/icon.ico")
+    icon = PhotoImage(file="assets/icon.png")
+    root.iconphoto(False, icon)
 
     gui = RecorderGUI(
         root=root,
